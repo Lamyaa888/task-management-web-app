@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Tasks</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>My Tasks</h1>
+
+        <!-- 🔥 Messages هنا -->
+        {% if messages %}
+            {% for message in messages %}
+                <div style="background: #d1fae5; padding: 10px; border-radius: 8px; margin-bottom: 10px;">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <p class="small-text">Welcome, {{ request.user.username }}</p>
+
+        <div class="nav">
+            <a href="/add/">Add New Task</a>
+            <a href="/logout/">Logout</a>
+        </div>
+
+        {% for task in tasks %}
+            <div class="task-card">
+                <h3>{{ task.title }}</h3>
+                <p>{{ task.description }}</p>
+                
+            
+               <<p class="small-text">Completed: {{ task.completed }}</p>
+
+                      <a href="/edit/{{ task.id }}/">Edit</a>
+                      <a href="/delete/{{ task.id }}/">Delete</a>
+                    <a href="/toggle/{{ task.id }}/">
+    {% if task.completed %}
+        Mark as Incomplete
+    {% else %}
+        Mark as Complete
+    {% endif %}
+</a>
+            </div>
+        {% empty %}
+            <p>No tasks yet.</p>
+        {% endfor %}
+    </div>
+</body>
+</html>
